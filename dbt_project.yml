@@ -12,7 +12,11 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
-
+vars: 
+    project: "gen-dw-prod" 
+    property_ids: [335772514, 335774252, 336890609, 337039321, 337262399]
+    static_incremental_days: 3
+    dataset: "osaka_ga4_combined"
 models:
   ga4:
     +materialized: view

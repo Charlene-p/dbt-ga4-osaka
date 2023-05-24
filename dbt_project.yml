@@ -1,6 +1,17 @@
-name: 'ga4'
-version: '3.2.1'
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'dbt_ga4'
+version: '0.3.1'
 config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'default'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
@@ -12,13 +23,37 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
-vars: 
-    project: "gen-dw-prod" 
-    property_ids: [335772514, 335774252, 336890609, 337039321, 337262399]
-    static_incremental_days: 3
-    dataset: "osaka_ga4_combined"
+
+vars:
+  project: "gen-dw-prod"
+  dataset: "ga4_combine_osaka"
+  datasets_list: [
+                  "analytics_335772514", 
+                  "analytics_335774252", 
+                  "analytics_336890609", 
+                  "analytics_337039321", 
+                  "analytics_337262399"
+                  ]
+  property_ids: [335772514, 335774252, 336890609, 337039321, 337262399]
+  static_incremental_days: 4
+  start_date: "20230501" # Defines the earliest GA4 event _TABLE_SUFFIX to load into base events model.
+  frequency: "daily" # daily|streaming defaults to daily. If you only use the streaming export, use this setting to only get the streaming data.
+
+  # Query parameter exclusions
+  # You can remove specific query parameters from the page_location by listing them here
+  query_parameter_exclusions: ["gclid","fbclid","_ga"]
+
+  # Structured setting
+  structured_model: "incremental" # incremental|view. Default is view.
+  time_zone: "+08:00"
+
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/reference/configuring-models
 models:
-  ga4:
-    +materialized: view
-    marts:
-      +materialized: table
+  dbt_ga4:  # project from Vpon's DBT Package Hub
+    structured:
+      enabled: true
+    osaka_structured:
+      enabled: true    
+

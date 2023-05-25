@@ -1,6 +1,6 @@
 {{
     config(
-    pre_hook= "{{ combine_ga4_data() }}",
+    pre_hook= "{{ ga4.combine_ga4_data() }}",
     partition_by={
         "field": "event_date_dt",
         "data_type": "date",

@@ -37,7 +37,7 @@ vars:
   property_ids: [335772514, 335774252, 336890609, 337039321, 337262399]
   static_incremental_days: 4
   start_date: "20230501" # Defines the earliest GA4 event _TABLE_SUFFIX to load into base events model.
-  frequency: "daily" # daily|streaming defaults to daily. If you only use the streaming export, use this setting to only get the streaming data.
+  frequency: "streaming" # daily|streaming defaults to daily. If you only use the streaming export, use this setting to only get the streaming data.
 
   # Query parameter exclusions
   # You can remove specific query parameters from the page_location by listing them here
